@@ -2,8 +2,11 @@ import cv2
 import numpy as np
 from scipy.ndimage import convolve
 from test_algo import convolve_moi, noyau_gauss, filter_gauss
+import os
 
-chemin_image = 'C:\\Users\\Audensiel\\Desktop\\numero_plaque\\Kazakhstan\\files\\domain1\\900900.jpg'
+dossier_image = 'Kazakhstan\\files\\domain1\\900900.jpg'
+chemin_image = os.path.join(os.getcwd(), dossier_image)
+print(chemin_image)
 image = cv2.imread(chemin_image)
 image_gris = cv2.imread(chemin_image, cv2.IMREAD_GRAYSCALE)
 
