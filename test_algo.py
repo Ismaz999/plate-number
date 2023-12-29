@@ -27,7 +27,7 @@ def noyau_gauss(size, sigma=1):
     x,y = np.mgrid[-size:size+1, -size:size+1]
     normal = 1/(2.0 * np.pi * sigma**2)
     g = np.exp(-((x**2 + y**2)/(2.0 *sigma**2))) * normal
-    print("ca cest g", g)
+    print("gauss")
     return g
 
 def filter_gauss(image, kernel_size, sigma):
@@ -47,9 +47,7 @@ def filtre_median(image, kernel):
 def erosion_grayscale(image, kernel, threshold=127):
     kernel_height, kernel_width = kernel.shape
     image_height, image_width = image.shape
-    print("height", kernel_height)
     output = np.zeros_like(image)
-    print("output image",output)
 
     pad_height = kernel_height // 2
     pad_width = kernel_width // 2
@@ -60,7 +58,7 @@ def erosion_grayscale(image, kernel, threshold=127):
             sub_matrix = padded_image[i:i+kernel_height, j:j+kernel_width]
             # Appliquer l'érosion en considérant les valeurs supérieures à threshold comme 1
             output[i, j] = np.min(sub_matrix[kernel == 1]) > threshold
-    print("iimage finie",output)
+    print("Fin de erosion")
     return output * 255
 
 def dilatation_grayscale(image, kernel):
