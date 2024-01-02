@@ -61,5 +61,35 @@ noms_colonnes = [
 ]
 
 df_annotations = pd.read_csv(chemin_annot, names=noms_colonnes)
+df_annotations = df_annotations.iloc[1:]
+df_annotations = df_annotations.reset_index(drop=True)
+print(df_annotations.head())
 
-print(df_annotations)
+X = []
+y = []
+
+for _, row in df_annotations.iterrows():
+    fichier_image = row['file_name']
+    chemin_image = os.path.join(chemin_sortie, fichier_image)
+    
+    # Chargement de l'image
+    image = cv2.imread(chemin_image)
+    if image is not None:
+        X.append(image)
+        y.append(row['bbox'])  # Remplacer 'bbox' par le nom de la colonne appropriée
+
+# Conversion de X et y en tableaux NumPy pour l'entraînement
+X = np.array(X)
+y = np.array(y)
+
+
+print("Images chargées :", len(X))
+print("Annotations chargées :", len(y))
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print(X_train)
+print(X_test)
+print(y_train)
+print(y_test)
+
