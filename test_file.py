@@ -1,28 +1,37 @@
 import cv2
 import numpy as np
-import pandas
 from scipy.ndimage import convolve
 from fonction_cv import convolve_moi, noyau_gauss, filter_gauss, filtre_median, erosion_grayscale, dilatation_grayscale, ouverture_grayscale
 import os
-
-# dossier_image = 'Kazakhstan\\files\\domain1\\900900.jpg'
-# chemin_image = os.path.join(os.getcwd(), dossier_image)
-
-# image = cv2.imread(chemin_image)
-# image_gris = cv2.imread(chemin_image, cv2.IMREAD_GRAYSCALE)
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 kernel_taille = 3 #nombre impair seulement
 sigma = 1
 kernel_eros = np.ones((kernel_taille, kernel_taille), np.uint8)
 
 chemin_kazak = 'KAZAK_test\\images'
-chemin_sortie = 'KAZAK_test\\filtered_images'
+chemin_sortie = 'KAZAK_test\\filtered_images_test'
+chemin_annot = 'KAZAK_test\\annot\\Kazakhstan_domain1_p1_samples.csv'
 
 if not os.path.exists(chemin_sortie):
     os.makedirs(chemin_sortie)
 
 for fichier in os.listdir(chemin_kazak):
     if fichier.lower().endswith(('.png','.jpg','.jpeg')):
+        base_filename, file_extension = os.path.splitext(fichier)
+        already_processed = True
+
+        # Check if all filtered images exist
+        for filter_type in ['gauss', 'erosion', 'dilatation', 'ouverture']:
+            if not os.path.exists(os.path.join(chemin_sortie, f'{filter_type}_{fichier}')):
+                already_processed = False
+                break
+
+        if already_processed:
+            print(f"{fichier} has already been processed. Skipping...")
+            continue
+
         chemin_image = os.path.join(chemin_kazak, fichier)
         image = cv2.imread(chemin_image)
 
@@ -44,18 +53,13 @@ for fichier in os.listdir(chemin_kazak):
     else:
         print(f"Erreur : Impossible de charger l'image {fichier}. Vérifiez le chemin.")
 
-if image is not None:
-    print("L'image a été chargée avec succès.")
-    # cv2.imshow("Image Chargée", image) 
-    # cv2.waitKey(0)
-else:
-    print("Erreur : Impossible de charger l'image. Vérifiez le chemin.")
 
-np_sobelx = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-np_sobely = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
+noms_colonnes = [
+    'file_name', 'bbox', 'license_plate_id', 'license_plate_visibility',
+    'license_plate_rows_count', 'license_plate_number', 'license_plate_serial',
+    'license_plate_country', 'license_plate_color', 'license_plate_mask'
+]
 
+df_annotations = pd.read_csv(chemin_annot, names=noms_colonnes)
 
-
-image_gauss_uint = image_gauss.astype(np.uint8) #on convertit l'image en uint8 sinon elle ne s'affihe pas
-
-
+print(df_annotations)
