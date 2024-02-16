@@ -35,4 +35,21 @@ Ce projet nécessite l'installation des bibliothèques suivantes :
 - Scikit-learn
 - Seaborn
 
+## Images
+
+<img src="https://github.com/Ismaz999/plate-number/blob/main/resultats_predictions/image_0.png" alt="Description de l'image 1" width="300"/>
+<img src="https://github.com/Ismaz999/plate-number/blob/main/resultats_predictions/image_33.png" alt="Description de l'image 2" width="300"/>
+<img src="https://github.com/Ismaz999/plate-number/blob/main/resultats_predictions/image_16.png" alt="Description de l'image 3" width="300"/>
+<img src="https://github.com/Ismaz999/plate-number/blob/main/resultats_predictions/image_2.png" alt="Description de l'image 4" width="300"/>
+
+## Résultats
+
+### Graphiques de perte et de précision
+
+![Graphique de perte](https://github.com/Ismaz999/plate-number/blob/main/loss.png)
+![Graphique de précision](https://github.com/Ismaz999/plate-number/blob/main/accuracy.png)
+
+### Matrice de confusion
+
+![Matrice de confusion](https://github.com/Ismaz999/plate-number/blob/main/confusion%20matrix%20vgg16.png)
 
